@@ -1,0 +1,33 @@
+/* pages/other/index.wxss */
+.list .title {
+    border-bottom: 1px solid #dee4dc;
+    font-size: 14px;
+}
+
+.list .title text.noLink {
+    color: #000;
+}
+
+.imgBox {
+    text-align: center;
+    border-bottom: 1px solid #dee4dc;
+    padding: 5px 0;
+    font-size: 0;
+}
+
+.imgBox image {
+    width: 90%;
+}
+
+.listBox {
+    border-bottom: 1px solid #dee4dc;
+}
+.listBox .item {
+    border-bottom: 0;
+}
+
+.other button {
+    width: calc(100% - 30px) !important;
+    margin: 20px auto 0;
+    font-weight: 400;
+}
