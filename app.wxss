@@ -1,102 +1,155 @@
 /**app.wxss**/
-button {
-    background-color: #0000ff;
-    color: #fff;
-}
-
 .info,
-.other {
-    padding-bottom: 20px;
+.other,
+.maintain {
+    padding-bottom: 40rpx;
 }
 
-.hoverBtn {
-    background-color: #0000ff;
-    color: #fff;
-    opacity: 0.7;
-}
-
-.head {
+/* 头部标题 */
+.navbar {
     background-color: #5a1bbe;
 }
-
-.head text {
+.navbar text {
     display: block;
-    padding: 5px 0;
+    padding: 10rpx 0;
     color: #fff;
     text-align: center;
     font-weight: normal;
 }
 
+/* 搜索栏 */
 .search {
-    padding: 0 15px;
-    margin: 15px 0;
+    padding: 0 30rpx;
+    margin: 30rpx 0;
     display: flex;
 }
-
 .search input {
     height: auto;
     flex: 1;
-    font-size: 14px;
+    font-size: 28rpx;
     border: 1px solid #0000ff;
 }
-
 .search input[placeholder] {
     text-align: center;
-    font-size: 14px;
+    font-size: 28rpx;
 }
-
-.search button {
+.search .search-btn {
     margin-left: 10px;
     font-weight: 400;
+    background-color: #0000ff;
+    color: #fff;
 }
 
-
-.list .item {
-    line-height: 30px;
-    padding: 0 10px;
-    font-size: 14px;
-    display: flex;
-    border-bottom: 1px solid #dee4dc;
-}
-
-.list .item text:first-child {
-    min-width: 80px;
-    color: #0000ff;
-}
-
-.list .item text:first-child::after {
-    content: '：';
-    display: inline-block;
-}
-
-.list .item text:last-child {
-    flex: 1;
-    text-align: right;
-}
-
-.list .item image {
-    width: 100px;
-    height: 100px;
-}
 
 .list .title {
-    line-height: 36px;
-    padding: 0 10px;
+    line-height: 72rpx;
+    padding: 0 20rpx;
+    /* font-size: 30rpx; */
     font-weight: 700;
     overflow: hidden;
 }
-
 .list .title text:not(:first-child) {
     float: right;
     font-weight: normal;
     color: #0000ff;
 }
-
+.list .item {
+    line-height: 60rpx;
+    padding: 0 20rpx;
+    font-size: 28rpx;
+    display: flex;
+    border-bottom: 1px solid #dee4dc;
+}
+.list .item text:first-child {
+    min-width: 160rpx;
+    color: #0000ff;
+}
+.list .item text:first-child::after {
+    content: '：';
+    display: inline-block;
+}
+.list .item text:last-child {
+    flex: 1;
+    text-align: right;
+}
+.list .item image {
+    width: 200rpx;
+    height: 200rpx;
+}
 .describe {
     text-align: left !important;
     word-break: break-all;
 }
-
+.black {
+    color: #000;
+}
 .green {
     color: #4ca64c;
+}
+
+/* 单行图片 */
+.img-box {
+    text-align: center;
+    border-bottom: 1px solid #dee4dc;
+    padding: 10rpx 0;
+    font-size: 0;
+}
+.img-box image {
+    width: 90%;
+}
+
+
+/* 表格 */
+.table-box {
+    padding: 10rpx;
+    border-bottom: 1px solid #dee4dc;
+}
+.thead {
+    display: flex;
+    font-size: 28rpx;
+    font-weight: 700;
+    border: 1px solid #ebeef5;
+    border-top-right-radius: 8rpx;
+    border-top-left-radius: 8rpx;
+    box-sizing: border-box;
+}
+.tbody {
+    font-size: 28rpx;
+    border: 1px solid #ebeef5;
+    border-top: none;
+    border-bottom-right-radius: 8rpx;
+    border-bottom-left-radius: 8rpx;
+    box-sizing: border-box;
+}
+.tbody-tr {
+    display: flex;
+    border-bottom: 1px solid #ebeef5;
+}
+.tbody-tr:last-child {
+    border-bottom: none;
+}
+.td {
+    border-right: 1rpx solid #ebeef5;
+    padding: 20rpx 10rpx;
+    text-align: center;
+    box-sizing: border-box;
+}
+.no-bb-line:last-child {
+    border-bottom: none !important;
+}
+
+
+/* 返回按钮 */
+.back-btn {
+    width: calc(100% - 60rpx) !important;
+    height: 84rpx;
+    margin: 50rpx auto 0;
+    font-size: 32rpx;
+    font-weight: 400;
+    background-color: #0000ff;
+    color: #fff;
+}
+
+.hover-btn {
+    opacity: 0.7;
 }

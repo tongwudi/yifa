@@ -1,5 +1,3 @@
-const { formatTime } = require("../../utils/util");
-
 // pages/other/index.js
 Page({
 
@@ -10,10 +8,14 @@ Page({
         info: {},
         object: {},
         localImgUrl:'',
-        header: [
+        /**
+         * 所有 width 相加等于 750 相当于宽度 100%
+         * 需要减去 table-box 的 20rpx 边距宽度
+         */
+        tableHeader: [ 
             {
                 prop: 'FSerialNo',
-                width: 300,
+                width: 250, 
                 label: '产品序列号',
                 color: '#000000'
               },
@@ -31,7 +33,7 @@ Page({
               },
               {
                 prop: 'FLeafLot',
-                width: 150,
+                width: 180,
                 label: '板(芯)炉号',
                 color: '#000000'
               }
@@ -40,8 +42,7 @@ Page({
     showDetail(event) {
         const key = event.currentTarget.dataset.key
         if (!key) return
-        console.log(key);
-        console.log(formatTime(new Date()));
+
         this.setData({
             ['object.' + key]: true
         })
@@ -49,9 +50,9 @@ Page({
     showCompleteDetail(event) {
         const key = event.currentTarget.dataset.key
         wx.showToast({
-            title: key,
             icon: 'none',
-            duration: 2000//持续的时间
+            title: key,
+            duration: 2000 // 持续的时间
         })
     },
     //预览图片
@@ -68,11 +69,25 @@ Page({
         wx.previewImage({
             urls: [imgPath] // 需要预览的图片http链接列表
         })
-    }
-    ,
+    },
+
     goBack() {
         wx.navigateBack({
             url: '../index/index'
+        })
+    },
+
+    goPage() {
+        if (!Object.keys(this.data.info).length) {
+            wx.showToast({
+                icon: 'none',
+                title: '请输入跟踪号或序列号！',
+                duration: 2000 // 持续的时间
+            })
+            return
+        }
+        wx.navigateTo({
+            url: '../maintain/index?trackNo=' + this.data.trackNo
         })
     },
 
@@ -87,7 +102,6 @@ Page({
                 trackNo: options.trackNo
             },
             success: res => {
-                console.log(res);
                 this.setData({
                     info: res.data.data
                 })
@@ -108,7 +122,7 @@ Page({
     onShow() {
         // 在这里删除临时文件
         var localImgUrl = this.data.localImgUrl;
-        if(localImgUrl) {
+        if (localImgUrl) {
             var fs = wx.getFileSystemManager();
             const res = fs.unlinkSync(localImgUrl);
             this.setData({

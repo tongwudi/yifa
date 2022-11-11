@@ -1,16 +1,16 @@
 <!--pages/other/index.wxml-->
 <view class="other">
-    <view class="head">
+    <view class="navbar">
         <text>阀门其他信息查询</text>
     </view>
 
     <view class="list">
         <view class="title">
             <text>2.1 阀门结构图</text>
-            <!-- <text wx:if="{{ !info.FStructure  }}" bindtap="showDetail">查看</text> -->
+            <!-- <text wx:if="{{ !info.FStructure }}" bindtap="showDetail">查看</text> -->
         </view>
-        <view wx:if="{{ info.FStructure }}" class="imgBox">
-            <image data-key="{{info.FStructure}}" bindtap="onPreviewImage" src="data:image/jpeg;base64,{{info.FStructure}}" />
+        <view wx:if="{{ info.FStructure }}" class="img-box">
+            <image data-key="{{ info.FStructure }}" bindtap="onPreviewImage" src="data:image/jpeg;base64,{{info.FStructure}}" />
         </view>
         <view class="title">
             <text>2.2 阀门主要材料信息</text>
@@ -97,37 +97,28 @@
             <text wx:if="{{ !object['6'] }}" data-key="6" bindtap="showDetail">查看</text>
         </view>
 
-        <block wx:if="{{ object['6'] }}">
-            <table-view  
-                header-row-class-name="header-class"
-                headers="{{header}}" 
-                data="{{  info.SerialNos }}" 
-                border="true"
+        <view wx:if="{{ object['6'] }}" class="table-box">
+            <table-view
+                row-class-name="no-bb-line"
+                headers="{{ tableHeader }}" 
+                data="{{ info.SerialNos }}"
+                border
             /> 
-            <!--<view wx:for="{{ info.SerialNos }}" wx:key="index" class="listBox">
-                <view class="item">
-                    <text>序列号</text>
-                    <text>{{ item.FSerialNo }}</text>
-                </view>
-                <view class="item">
-                    <text>类型</text>
-                    <text>{{ item.FType }}</text>
-                </view>
-                <view class="item">
-                    <text>炉批号</text>
-                    <text>{{ item.FLot }}</text>
-                </view>
-            </view>-->
-        </block>
+        </view>
         <view class="title">
             <text>2.7 质量管理员</text>
-            <text class="noLink">{{ info.FQualityManager }}</text>
+            <text class="black">{{ info.FQualityManager }}</text>
         </view>
         <view class="title">
             <text>2.8 竣工文件</text>
             <text data-key="{{info.FCompletionFiles}}" bindtap="showCompleteDetail">查看</text>
         </view>
+
+        <view class="title">
+            <text>3. 阀门维保</text>
+            <text bindtap="goPage">查看</text>
+        </view>
     </view>
 
-    <button hover-class="hoverBtn" bindtap="goBack">返回前一页</button>
+    <button class="back-btn" hover-class="hover-btn" bindtap="goBack">返回前一页</button>
 </view>

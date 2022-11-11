@@ -30,7 +30,7 @@ Page({
                     wx.showToast({
                         title: res.data.context,
                         icon: 'none',
-                        duration: 2000//持续的时间
+                        duration: 2000 // 持续的时间
                     })
                     this.setData({
                         info: {}
@@ -58,7 +58,8 @@ Page({
         if (!Object.keys(this.data.info).length) {
             wx.showToast({
                 icon: 'none',
-                title: '请输入跟踪号或序列号！'
+                title: '请输入跟踪号或序列号！',
+                duration: 2000 // 持续的时间
             })
             return
         }

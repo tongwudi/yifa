@@ -1,17 +1,16 @@
 <view class="info">
-    <view class="head">
+    <view class="navbar">
         <text>江苏亿阀股份有限公司</text>
         <text>阀门信息溯源</text>
     </view>
 
     <view class="search">
         <input type="number" name="trackNo" bindinput="trackNoInput" placeholder="输入阀门跟踪号查询" />
-        <button size="mini" hover-class="hoverBtn" bindtap="search">查 询</button>
+        <button size="mini" class="search-btn" hover-class="hover-btn" bindtap="search">查 询</button>
     </view>
 
     <view class="list">
         <view class="title">1. 阀门参数概述</view>
-
         <view class="item">
             <text>1.1 合同号</text>
             <text>{{ info.FContractNo }}</text>
@@ -95,9 +94,12 @@
         <view class="item">
             <text>1.21 阀门图片</text>
             <view>
-                <image data-key="{{info.FImage}}" bindtap="onPreviewImage"src="data:image/jpeg;base64,{{ info.FImage }}" wx:if="{{ info.FImage }}" />
+                <image wx:if="{{ info.FImage }}" data-key="{{ info.FImage }}" bindtap="onPreviewImage" src="data:image/jpeg;base64,{{ info.FImage }}" />
+                <!-- <image src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Flmg.jj20.com%2Fup%2Fallimg%2F1114%2F121420113514%2F201214113514-6-1200.jpg&refer=http%3A%2F%2Flmg.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1670724105&t=2b956fb21d71df70dc708fb7cd9bd9e3"
+                /> -->
             </view>
         </view>
+
         <view class="title">
             <text>2. 阀门其他信息</text>
             <text bindtap="goPage">查看</text>
