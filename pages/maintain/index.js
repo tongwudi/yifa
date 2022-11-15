@@ -5,30 +5,33 @@ Page({
      * 页面的初始数据
      */
     data: {
+        trackNo: '',
+        uploadOpts: ['上传语音', '上传图片'],
+        imageSrc: '',
         inspectTableData: [{
                 project: 'dfd',
                 inspectors: '张三',
-                time: '2022/11/11 15:56'
+                fileUrl: ''
             },
             {
                 project: 'dfd',
                 inspectors: '李四',
-                time: '2022/11/11 15:57'
+                fileUrl: ''
             },
             {
                 project: 'dfd',
                 inspectors: '王五',
-                time: '2022/11/11 15:58'
+                fileUrl: ''
             },
             {
                 project: 'dfd',
                 inspectors: '赵六',
-                time: '2022/11/11 15:59'
+                fileUrl: ''
             },
             {
                 project: 'dfd',
                 inspectors: '燕七',
-                time: '2022/11/11 16:00'
+                fileUrl: ''
             }
         ],
         /**
@@ -66,11 +69,15 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
+        const trackNo = options.trackNo
+        this.setData({
+            trackNo
+        })
         wx.request({
-            url: 'http://221.131.179.226:8085/YFWechat/OpenApi/getOrderDetail',
+            url: 'http://221.131.179.226:8085/YFWechat/OpenApi/getInspectionItem',
             method: 'POST',
             data: {
-                trackNo: options.trackNo
+                trackNo
             },
             success: res => {
                 this.setData({
@@ -82,13 +89,30 @@ Page({
 
     bindKeyInput(e) {
         console.log(e);
-        let name = e.target.dataset.name
-        let index = e.target.dataset.index
-        let value = e.detail.value
+        const name = e.target.dataset.name
+        const index = e.target.dataset.index
+        const value = e.detail.value
 
         this.setData({
             [`inspectTableData[${index}].${name}`]: value
         })
+    },
+
+    bindPickerChange(e) {
+        const value = e.detail.value
+        const index = e.target.dataset.index
+        console.log(index);
+        // wx.chooseMedia({
+        //     count: 1,
+        //     mediaType: ['image'],
+        //     success: res => {
+        //         this.setData({
+        //             [`inspectTableData[${index}].fileUrl`]: res.tempFiles[0].tempFilePath
+        //         })
+        //         console.log(this.data.inspectTableData);
+        //         console.log(res);
+        //     }
+        // })
     },
 
     showDetail(event) {
@@ -101,10 +125,9 @@ Page({
     },
 
     goBack() {
-        console.log(this.data.inspectTableData);
-        // wx.navigateBack({
-        //     url: '../other/index'
-        // })
+        wx.navigateBack({
+            url: '../other/index'
+        })
     },
 
     /**

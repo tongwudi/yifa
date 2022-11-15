@@ -134,6 +134,9 @@
     text-align: center;
     box-sizing: border-box;
 }
+.operation {
+    color: #0000ff;
+}
 .no-bb-line:last-child {
     border-bottom: none !important;
 }

@@ -7,36 +7,36 @@ Page({
     data: {
         info: {},
         object: {},
-        localImgUrl:'',
+        trackNo: '',
+        localImgUrl: '',
         /**
          * 所有 width 相加等于 750 相当于宽度 100%
          * 需要减去 table-box 的 20rpx 边距宽度
          */
-        tableHeader: [ 
-            {
+        tableHeader: [{
                 prop: 'FSerialNo',
-                width: 250, 
+                width: 250,
                 label: '产品序列号',
                 color: '#000000'
-              },
-              {
+            },
+            {
                 prop: 'FBodyLot',
                 width: 150,
                 label: '体炉号',
                 color: '#000000'
-              },
-              {
+            },
+            {
                 prop: 'FCapLot',
                 width: 150,
                 label: '盖炉号',
                 color: '#000000'
-              },
-              {
+            },
+            {
                 prop: 'FLeafLot',
                 width: 180,
                 label: '板(芯)炉号',
                 color: '#000000'
-              }
+            }
         ]
     },
     showDetail(event) {
@@ -95,11 +95,15 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
+        const trackNo = options.trackNo
+        this.setData({
+            trackNo: trackNo
+        })
         wx.request({
             url: 'http://221.131.179.226:8085/YFWechat/OpenApi/getOrderDetail',
             method: 'POST',
             data: {
-                trackNo: options.trackNo
+                trackNo
             },
             success: res => {
                 this.setData({

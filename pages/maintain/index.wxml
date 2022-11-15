@@ -54,24 +54,31 @@
             <view class="table-box">
                 <view class="thead">
                     <view class="td" style="width: 110rpx;">序号</view>
-                    <view class="td" style="width: 180rpx;">维修项目</view>
-                    <view class="td" style="width: 160rpx;">巡检人</view>
-                    <view class="td" style="width: 280rpx;">时间</view>
+                    <view class="td" style="width: 200rpx;">维修项目</view>
+                    <view class="td" style="width: 200rpx;">巡检人</view>
+                    <view class="td" style="width: 220rpx;">操作</view>
                 </view>
                 <scroll-view scroll-y="true" class="tbody">
                     <view class="tbody-tr" wx:for="{{ inspectTableData }}" wx:key="index">
                         <view class="td" style="width: 110rpx;">{{ index + 1 }}</view>
-                        <view class="td" style="width: 180rpx;">
+                        <view class="td" style="width: 200rpx;">
                             <input type="text" bindinput="bindKeyInput" value="{{ item.project }}" data-index="{{ index }}" data-name="project" />
                         </view>
-                        <view class="td" style="width: 160rpx;">
+                        <view class="td" style="width: 200rpx;">
                             <input type="text" bindinput="bindKeyInput" value="{{ item.inspectors }}" data-index="{{ index }}" data-name="inspectors" />
                         </view>
-                        <view class="td" style="width: 280rpx;"> {{ item.time }}</view>
+                        <view class="td operation" style="width: 220rpx;">
+                          <picker bindchange="bindPickerChange"  data-index="{{ index }}" range="{{ uploadOpts }}">
+                            {{ !item.fileUrl ? '上传' : '重新上传' }}
+                          </picker>
+                        </view>
                     </view>
                 </scroll-view>
             </view>
         </block>
+        <view>
+            <!-- <button class="back-btn">记录上传</button> -->
+        </view>
 
         <view class="title">
             <text>3.4 维修保养记录</text>
