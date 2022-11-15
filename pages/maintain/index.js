@@ -6,8 +6,7 @@ Page({
      */
     data: {
         trackNo: '',
-        uploadOpts: ['上传语音', '上传图片'],
-        imageSrc: '',
+        // uploadOpts: ['上传语音', '上传图片'],
         inspectTableData: [{
                 project: 'dfd',
                 inspectors: '张三',
@@ -87,6 +86,15 @@ Page({
         })
     },
 
+    showDetail(event) {
+        const key = event.currentTarget.dataset.key
+        if (!key) return
+
+        this.setData({
+            ['object.' + key]: true
+        })
+    },
+
     bindKeyInput(e) {
         console.log(e);
         const name = e.target.dataset.name
@@ -98,31 +106,56 @@ Page({
         })
     },
 
-    bindPickerChange(e) {
-        const value = e.detail.value
+    chooseImage(e) {
         const index = e.target.dataset.index
         console.log(index);
-        // wx.chooseMedia({
-        //     count: 1,
-        //     mediaType: ['image'],
-        //     success: res => {
-        //         this.setData({
-        //             [`inspectTableData[${index}].fileUrl`]: res.tempFiles[0].tempFilePath
-        //         })
-        //         console.log(this.data.inspectTableData);
-        //         console.log(res);
-        //     }
-        // })
-    },
-
-    showDetail(event) {
-        const key = event.currentTarget.dataset.key
-        if (!key) return
-
-        this.setData({
-            ['object.' + key]: true
+        wx.chooseMedia({
+            count: 1,
+            mediaType: ['image'],
+            success: res => {
+                const tempFilePath = res.tempFiles[0].tempFilePath
+                this.setData({
+                    [`inspectTableData[${index}].fileUrl`]: tempFilePath
+                })
+                console.log(this.data.inspectTableData);
+                console.log(res);
+                this.upload(tempFilePath)
+            }
         })
     },
+
+    upload(filePath) {
+        wx.uploadFile({
+            url: 'http://221.131.179.226:8085/YFWechat/OpenApi/saveInspectionRecords',
+            filePath,
+            name: 'file',
+            formData: {
+                trackNo: this.data.trackNo,
+                inspectionItem: 'dfd',
+                inspectionUser: '老刘'
+            },
+            success: res => {
+                console.log(res);
+            }
+        })
+    },
+
+    // bindPickerChange(e) {
+    //     const value = e.detail.value
+    //     const index = e.target.dataset.index
+    //     console.log(index);
+    //     wx.chooseMedia({
+    //         count: 1,
+    //         mediaType: ['image'],
+    //         success: res => {
+    //             this.setData({
+    //                 [`inspectTableData[${index}].fileUrl`]: res.tempFiles[0].tempFilePath
+    //             })
+    //             console.log(this.data.inspectTableData);
+    //             console.log(res);
+    //         }
+    //     })
+    // },
 
     goBack() {
         wx.navigateBack({

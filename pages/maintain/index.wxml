@@ -13,35 +13,36 @@
 
         <view class="title">
             <text>3.2 巡检要点</text>
-            <text bindtap="showDetail">查看</text>
+            <!-- <text wx:if="{{ !object['3'] }}" data-key="3" bindtap="showDetail">查看</text> -->
         </view>
+        <!-- <block wx:if="{{ object['3'] }}"> -->
         <block>
             <view class="item">
-                <text>3.2.1 传动机构润滑</text>
+                <text>1.传动机构润滑</text>
                 <text>{{ info.FContractNo }}</text>
             </view>
             <view class="item">
-                <text>3.2.2 填料</text>
+                <text>2.填料</text>
                 <text>{{ info.FPleaseBuyNo }}</text>
             </view>
             <view class="item">
-                <text>3.2.3 垫片</text>
+                <text>3.垫片</text>
                 <text>{{ info.FPleaseBuyNo }}</text>
             </view>
             <view class="item">
-                <text>3.2.4 紧固件</text>
+                <text>4.紧固件</text>
                 <text>{{ info.FPleaseBuyNo }}</text>
             </view>
             <view class="item">
-                <text>3.2.5 外观</text>
+                <text>5.外观</text>
                 <text>{{ info.FPleaseBuyNo }}</text>
             </view>
             <view class="item">
-                <text>3.2.6 壁厚监测点</text>
+                <text>6.壁厚监测点</text>
                 <text>{{ info.FPleaseBuyNo }}</text>
             </view>
             <view class="img-box">
-                <image wx:if="{{ info.FImage }}" data-key="{{ info.FImage }}" bindtap="onPreviewImage" src="data:image/jpeg;base64,{{ info.FImage }}" />
+                <!-- <image wx:if="{{ info.FImage }}" data-key="{{ info.FImage }}" bindtap="onPreviewImage" src="data:image/jpeg;base64,{{ info.FImage }}" /> -->
                 <image src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Flmg.jj20.com%2Fup%2Fallimg%2F1114%2F121420113514%2F201214113514-6-1200.jpg&refer=http%3A%2F%2Flmg.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1670724105&t=2b956fb21d71df70dc708fb7cd9bd9e3" />
             </view>
         </block>
@@ -53,10 +54,12 @@
         <block wx:if="{{ object['3'] }}">
             <view class="table-box">
                 <view class="thead">
-                    <view class="td" style="width: 110rpx;">序号</view>
-                    <view class="td" style="width: 200rpx;">维修项目</view>
-                    <view class="td" style="width: 200rpx;">巡检人</view>
-                    <view class="td" style="width: 220rpx;">操作</view>
+                    <view class="tbody-tr">
+                        <view class="th" style="width: 110rpx;">序号</view>
+                        <view class="th" style="width: 200rpx;">维修项目</view>
+                        <view class="th" style="width: 200rpx;">巡检人</view>
+                        <view class="th" style="width: 220rpx;">操作</view>
+                    </view>
                 </view>
                 <scroll-view scroll-y="true" class="tbody">
                     <view class="tbody-tr" wx:for="{{ inspectTableData }}" wx:key="index">
@@ -68,9 +71,10 @@
                             <input type="text" bindinput="bindKeyInput" value="{{ item.inspectors }}" data-index="{{ index }}" data-name="inspectors" />
                         </view>
                         <view class="td operation" style="width: 220rpx;">
-                          <picker bindchange="bindPickerChange"  data-index="{{ index }}" range="{{ uploadOpts }}">
+                            <a data-index="{{ index }}"  bindtap="chooseImage">{{ !item.fileUrl ? '上传' : '重新上传' }}</a>
+                          <!-- <picker bindchange="bindPickerChange"  data-index="{{ index }}" range="{{ uploadOpts }}">
                             {{ !item.fileUrl ? '上传' : '重新上传' }}
-                          </picker>
+                          </picker> -->
                         </view>
                     </view>
                 </scroll-view>
