@@ -110,7 +110,7 @@
 
     <view class="btns">
         <button hover-class="hover-btn" bindtap="uploadRecord">记录上传</button>
-        <button hover-class="hover-btn">记录下载</button>
+        <button hover-class="hover-btn" bindtap="downloadRecord">记录下载</button>
     </view>
 
     <button class="back-btn" hover-class="hover-btn" bindtap="goBack">返回前一页</button>

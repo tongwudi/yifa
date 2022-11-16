@@ -115,7 +115,7 @@ Page({
         const index = e.target.dataset.index
         const curObj = this.data.inspectTableData[index]
 
-        if ( curObj.project === '' || curObj.inspectors === '') {
+        if (curObj.project === '' || curObj.inspectors === '') {
             wx.showToast({
                 icon: 'none',
                 title: '请先填写巡检项目与巡检人！',
@@ -248,6 +248,33 @@ Page({
                     duration: 2000 // 持续的时间
                 })
             })
+    },
+    downloadRecord() {
+        const trackNo = this.data.trackNo
+
+        wx.request({
+            url: 'http://221.131.179.226:8085/YFWechat/OpenApi/getRecordWord',
+            method: 'POST',
+            data: {
+                trackNo
+            },
+            success: res => {
+                const url = res.data.data.wordUrl
+
+                wx.downloadFile({
+                    url,
+                    // 保存路径
+                    filePath: wx.env.USER_DATA_PATH + '/维保记录.docx',
+                    success: file => {
+                        wx.openDocument({
+                            filePath: file.filePath,
+                            // 通过右上角菜单保存到手机
+                            showMenu: true
+                        })
+                    }
+                })
+            }
+        })
     },
     // bindPickerChange(e) {
     //     const value = e.detail.value
