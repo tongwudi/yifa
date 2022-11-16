@@ -1,66 +1,38 @@
 // pages/maintain/index.js
-Page({
 
-    /**
-     * 页面的初始数据
-     */
+Page({
     data: {
         trackNo: '',
+        guideUrl: '',
+        imageUrl: '',
         // uploadOpts: ['上传语音', '上传图片'],
         inspectTableData: [{
-                project: 'dfd',
-                inspectors: '张三',
+                project: '',
+                inspectors: '',
                 fileUrl: ''
             },
             {
-                project: 'dfd',
-                inspectors: '李四',
+                project: '',
+                inspectors: '',
                 fileUrl: ''
             },
             {
-                project: 'dfd',
-                inspectors: '王五',
+                project: '',
+                inspectors: '',
                 fileUrl: ''
             },
             {
-                project: 'dfd',
-                inspectors: '赵六',
+                project: '',
+                inspectors: '',
                 fileUrl: ''
             },
             {
-                project: 'dfd',
-                inspectors: '燕七',
+                project: '',
+                inspectors: '',
                 fileUrl: ''
             }
         ],
-        /**
-         * 所有 width 相加等于 750 相当于宽度 100%
-         * 需要减去 table-box 的 20rpx 边距宽度
-         */
-        tableHeader: [{
-                prop: 'FSerialNo',
-                width: 450,
-                label: '维修项目',
-                color: '#000000'
-            },
-            {
-                prop: 'FBodyLot',
-                width: 280,
-                label: '日期',
-                color: '#000000'
-            }
-        ],
-        info: {
-            SerialNos: [{
-                    FSerialNo: 'fdfd',
-                    FBodyLot: '2022/11/11 10:58'
-                },
-                {
-                    FSerialNo: 'fdfd',
-                    FBodyLot: '2022/11/11 13:58'
-                }
-            ]
-        },
+        maintainTableData: [],
         object: {}
     },
 
@@ -69,6 +41,7 @@ Page({
      */
     onLoad(options) {
         const trackNo = options.trackNo
+
         this.setData({
             trackNo
         })
@@ -79,24 +52,48 @@ Page({
                 trackNo
             },
             success: res => {
-                this.setData({
-                    info: res.data.data
-                })
+                if (res.data.success) {
+                    const guideUrl = res.data.data?.FIAMGImage || ''
+                    const imageUrl = res.data.data?.FImage || ''
+
+                    this.setData({
+                        guideUrl,
+                        imageUrl
+                    })
+                }
             }
         })
     },
-
     showDetail(event) {
         const key = event.currentTarget.dataset.key
+
         if (!key) return
 
         this.setData({
             ['object.' + key]: true
         })
     },
+    // 文件预览
+    openFile() {
+        wx.downloadFile({
+            url: this.data.guideUrl,
+            success: res => {
+                const filePath = res.tempFilePath
+                wx.openDocument({
+                    filePath
+                })
+            }
+        })
+    },
+    // 图片预览
+    onPreviewImage() {
+        const imageUrl = this.data.imageUrl
 
+        wx.previewImage({
+            urls: [imageUrl] // 需要预览的图片http链接列表
+        })
+    },
     bindKeyInput(e) {
-        console.log(e);
         const name = e.target.dataset.name
         const index = e.target.dataset.index
         const value = e.detail.value
@@ -105,41 +102,153 @@ Page({
             [`inspectTableData[${index}].${name}`]: value
         })
     },
+    bindMaintainInput(e) {
+        const name = e.target.dataset.name
+        const index = e.target.dataset.index
+        const value = e.detail.value
 
+        this.setData({
+            [`maintainTableData[${index}].${name}`]: value
+        })
+    },
     chooseImage(e) {
         const index = e.target.dataset.index
-        console.log(index);
+        const curObj = this.data.inspectTableData[index]
+
+        if (Object.keys(curObj) !== Object.values(curObj)) {
+            wx.showToast({
+                icon: 'none',
+                title: '请先填写维修项目与巡检人！',
+                duration: 2000 // 持续的时间
+            })
+            return
+        }
+
         wx.chooseMedia({
             count: 1,
             mediaType: ['image'],
             success: res => {
-                const tempFilePath = res.tempFiles[0].tempFilePath
-                this.setData({
-                    [`inspectTableData[${index}].fileUrl`]: tempFilePath
-                })
-                console.log(this.data.inspectTableData);
-                console.log(res);
-                this.upload(tempFilePath)
+                const filePath = res.tempFiles[0].tempFilePath
+
+                this.upload(filePath, index)
             }
         })
     },
+    upload(filePath, index) {
+        const curObj = this.data.inspectTableData[index]
+        const trackNo = this.data.trackNo
 
-    upload(filePath) {
         wx.uploadFile({
             url: 'http://221.131.179.226:8085/YFWechat/OpenApi/saveInspectionRecords',
             filePath,
             name: 'file',
             formData: {
-                trackNo: this.data.trackNo,
-                inspectionItem: 'dfd',
-                inspectionUser: '老刘'
+                trackNo,
+                inspectionItem: curObj.project,
+                inspectionUser: curObj.inspectors
             },
             success: res => {
-                console.log(res);
+                // 返回值是json字符串，必须解析
+                const result = JSON.parse(res.data)
+
+                if (result.success) {
+                    this.setData({
+                        [`inspectTableData[${index}].fileUrl`]: filePath
+                    })
+                    wx.showToast({
+                        title: '上传成功',
+                        duration: 2000 // 持续的时间
+                    })
+                } else {
+                    wx.showToast({
+                        icon: 'none',
+                        title: '上传失败，请重试！',
+                        duration: 2000 // 持续的时间
+                    })
+                }
             }
         })
     },
+    addRow() {
+        const maintainTableData = this.data.maintainTableData;
 
+        // 新增数据是否全部填写
+        const isEnter = maintainTableData.every(obj => {
+            const values = Object.values(obj).filter(String)
+            const keys = Object.keys(obj)
+            return values.length === keys.length
+        })
+        if (!isEnter) {
+            wx.showToast({
+                icon: 'none',
+                title: '请先完善当前数据！',
+                duration: 2000 // 持续的时间
+            })
+            return
+        }
+
+        const obj = {
+            repairItem: '',
+            repairUser: ''
+        }
+        this.setData({
+            maintainTableData: maintainTableData.concat(obj)
+        })
+    },
+    uploadRecord() {
+        const maintainTableData = this.data.maintainTableData;
+        const trackNo = this.data.trackNo
+
+        // 新增数据是否全部填写
+        const isEnter = maintainTableData.every(obj => {
+            const values = Object.values(obj).filter(String)
+            const keys = Object.keys(obj)
+            return values.length === keys.length
+        })
+        if (!isEnter) {
+            wx.showToast({
+                icon: 'none',
+                title: '请先完善当前数据！',
+                duration: 2000 // 持续的时间
+            })
+            return
+        }
+
+        const fetchArr = maintainTableData.map(item => {
+            return new Promise((resolve, reject) => {
+                wx.request({
+                    url: 'http://221.131.179.226:8085/YFWechat/OpenApi/saveRepairRecords',
+                    method: 'POST',
+                    data: {
+                        trackNo,
+                        ...item
+                    },
+                    success: res => {
+                        if (res.data.success) {
+                            resolve(res.data)
+                        } else {
+                            reject()
+                        }
+                    }
+                })
+            })
+        })
+
+        Promise.all(fetchArr)
+            .then(res => {
+                wx.showToast({
+                    title: '上传成功',
+                    duration: 2000 // 持续的时间
+                })
+            })
+            .catch(() => {
+                wx.showToast({
+                    icon: 'none',
+                    title: '请先完善当前数据！',
+                    duration: 2000 // 持续的时间
+                })
+            })
+    },
     // bindPickerChange(e) {
     //     const value = e.detail.value
     //     const index = e.target.dataset.index
@@ -156,7 +265,6 @@ Page({
     //         }
     //     })
     // },
-
     goBack() {
         wx.navigateBack({
             url: '../other/index'

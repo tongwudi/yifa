@@ -94,6 +94,7 @@
         <view class="item">
             <text>1.21 阀门图片</text>
             <view>
+                <!-- 行内图片 -->
                 <image wx:if="{{ info.FImage }}" data-key="{{ info.FImage }}" bindtap="onPreviewImage" src="data:image/jpeg;base64,{{ info.FImage }}" />
                 <!-- <image src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Flmg.jj20.com%2Fup%2Fallimg%2F1114%2F121420113514%2F201214113514-6-1200.jpg&refer=http%3A%2F%2Flmg.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1670724105&t=2b956fb21d71df70dc708fb7cd9bd9e3"
                 /> -->

@@ -21,15 +21,14 @@ Page({
                 trackNo: this.data.trackNo
             },
             success: res => {
-                console.log(res);
                 if(res.data.success){
                     this.setData({
                         info: res.data.data
                     })
                 }else{
                     wx.showToast({
-                        title: res.data.context,
                         icon: 'none',
+                        title: res.data.context,
                         duration: 2000 // 持续的时间
                     })
                     this.setData({
@@ -68,11 +67,7 @@ Page({
         })
     },
     onLoad() {
-        // if (wx.getUserProfile) {
-        //     this.setData({
-        //         canIUseGetUserProfile: true
-        //     })
-        // }
+
     } , 
     /**
     * 生命周期函数--监听页面显示

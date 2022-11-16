@@ -7,8 +7,7 @@
     <view class="list">
         <view class="title">
             <text>3.1 安装维护指南</text>
-            <!-- 下载 -->
-            <text>查看</text>
+            <text bindtap="openFile">查看</text>
         </view>
 
         <view class="title">
@@ -41,9 +40,8 @@
                 <text>6.壁厚监测点</text>
                 <text>{{ info.FPleaseBuyNo }}</text>
             </view>
-            <view class="img-box">
-                <!-- <image wx:if="{{ info.FImage }}" data-key="{{ info.FImage }}" bindtap="onPreviewImage" src="data:image/jpeg;base64,{{ info.FImage }}" /> -->
-                <image src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Flmg.jj20.com%2Fup%2Fallimg%2F1114%2F121420113514%2F201214113514-6-1200.jpg&refer=http%3A%2F%2Flmg.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1670724105&t=2b956fb21d71df70dc708fb7cd9bd9e3" />
+            <view wx:if="{{ imageUrl }}" class="img-box">
+                <image bindtap="onPreviewImage" src="{{ imageUrl }}" />
             </view>
         </block>
 
@@ -56,23 +54,23 @@
                 <view class="thead">
                     <view class="tbody-tr">
                         <view class="th" style="width: 110rpx;">序号</view>
-                        <view class="th" style="width: 200rpx;">维修项目</view>
+                        <view class="th" style="width: 220rpx;">维修项目</view>
                         <view class="th" style="width: 200rpx;">巡检人</view>
-                        <view class="th" style="width: 220rpx;">操作</view>
+                        <view class="th" style="width: 200rpx;">操作</view>
                     </view>
                 </view>
                 <scroll-view scroll-y="true" class="tbody">
                     <view class="tbody-tr" wx:for="{{ inspectTableData }}" wx:key="index">
                         <view class="td" style="width: 110rpx;">{{ index + 1 }}</view>
-                        <view class="td" style="width: 200rpx;">
+                        <view class="td" style="width: 220rpx;">
                             <input type="text" bindinput="bindKeyInput" value="{{ item.project }}" data-index="{{ index }}" data-name="project" />
                         </view>
                         <view class="td" style="width: 200rpx;">
                             <input type="text" bindinput="bindKeyInput" value="{{ item.inspectors }}" data-index="{{ index }}" data-name="inspectors" />
                         </view>
-                        <view class="td operation" style="width: 220rpx;">
-                            <a data-index="{{ index }}"  bindtap="chooseImage">{{ !item.fileUrl ? '上传' : '重新上传' }}</a>
-                          <!-- <picker bindchange="bindPickerChange"  data-index="{{ index }}" range="{{ uploadOpts }}">
+                        <view class="td operation" style="width: 200rpx;">
+                            <a data-index="{{ index }}" bindtap="chooseImage">{{ !item.fileUrl ? '上传' : '重新上传' }}</a>
+                            <!-- <picker bindchange="bindPickerChange"  data-index="{{ index }}" range="{{ uploadOpts }}">
                             {{ !item.fileUrl ? '上传' : '重新上传' }}
                           </picker> -->
                         </view>
@@ -80,26 +78,44 @@
                 </scroll-view>
             </view>
         </block>
-        <view>
-            <!-- <button class="back-btn">记录上传</button> -->
-        </view>
 
         <view class="title">
             <text>3.4 维修保养记录</text>
             <text wx:if="{{ !object['4'] }}" data-key="4" bindtap="showDetail">查看</text>
         </view>
-        <view wx:if="{{ object['4'] }}" class="table-box">
-            <table-view
-                row-class-name="no-bb-line"
-                headers="{{ tableHeader }}"
-                data="{{ info.SerialNos }}"
-                border
-            />
-        </view>
+        <block wx:if="{{ object['4'] }}">
+            <view class="table-box">
+                <view class="thead">
+                    <view class="tbody-tr">
+                        <view class="th" style="width: 450rpx;">维修项目</view>
+                        <view class="th" style="width: 280rpx;">维修人</view>
+                    </view>
+                </view>
+                <scroll-view scroll-y="true" class="tbody">
+                    <block wx:if="{{ maintainTableData.length > 0 }}" wx:for="{{ maintainTableData }}" wx:key="index">
+                        <view class="tbody-tr">
+                            <view class="td" style="width: 450rpx;">
+                                <input type="text" bindinput="bindMaintainInput" value="{{ item.repairItem }}" data-index="{{ index }}" data-name="repairItem" />
+                            </view>
+                            <view class="td" style="width: 280rpx;">
+                                <input type="text" bindinput="bindMaintainInput" value="{{ item.repairUser }}" data-index="{{ index }}" data-name="repairUser" />
+                            </view>
+                        </view>
+                    </block>
+                    <!-- 列表无数据处理 -->
+                    <block wx:if="{{ maintainTableData.length === 0 }}">
+                        <view class="no-data">暂无数据~</view>
+                    </block>
+                </scroll-view>
+                <view class="add-btn">
+                    <button size="mini" plain bindtap="addRow">+</button>
+                </view>
+            </view>
+        </block>
     </view>
 
     <view class="btns">
-        <button hover-class="hover-btn">记录上传</button>
+        <button hover-class="hover-btn" bindtap="uploadRecord">记录上传</button>
         <button hover-class="hover-btn">记录下载</button>
     </view>
 

@@ -39,6 +39,29 @@ Page({
             }
         ]
     },
+
+    /**
+     * 生命周期函数--监听页面加载
+     */
+    onLoad(options) {
+        const trackNo = options.trackNo
+
+        this.setData({
+            trackNo: trackNo
+        })
+        wx.request({
+            url: 'http://221.131.179.226:8085/YFWechat/OpenApi/getOrderDetail',
+            method: 'POST',
+            data: {
+                trackNo
+            },
+            success: res => {
+                this.setData({
+                    info: res.data.data
+                })
+            }
+        })
+    },
     showDetail(event) {
         const key = event.currentTarget.dataset.key
         if (!key) return
@@ -78,7 +101,7 @@ Page({
     },
 
     goPage() {
-        if (!Object.keys(this.data.info).length) {
+        if (!this.data.trackNo) {
             wx.showToast({
                 icon: 'none',
                 title: '请输入跟踪号或序列号！',
@@ -88,28 +111,6 @@ Page({
         }
         wx.navigateTo({
             url: '../maintain/index?trackNo=' + this.data.trackNo
-        })
-    },
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad(options) {
-        const trackNo = options.trackNo
-        this.setData({
-            trackNo: trackNo
-        })
-        wx.request({
-            url: 'http://221.131.179.226:8085/YFWechat/OpenApi/getOrderDetail',
-            method: 'POST',
-            data: {
-                trackNo
-            },
-            success: res => {
-                this.setData({
-                    info: res.data.data
-                })
-            }
         })
     },
 
