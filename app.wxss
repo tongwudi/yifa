@@ -68,7 +68,7 @@
     content: '：';
     display: inline-block;
 }
-.list .item text:last-child {
+.list .item text:nth-child(2) {
     flex: 1;
     text-align: right;
 }

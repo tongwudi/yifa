@@ -18,27 +18,21 @@
         <block>
             <view class="item">
                 <text>1.传动机构润滑</text>
-                <text>{{ info.FContractNo }}</text>
             </view>
             <view class="item">
                 <text>2.填料</text>
-                <text>{{ info.FPleaseBuyNo }}</text>
             </view>
             <view class="item">
                 <text>3.垫片</text>
-                <text>{{ info.FPleaseBuyNo }}</text>
             </view>
             <view class="item">
                 <text>4.紧固件</text>
-                <text>{{ info.FPleaseBuyNo }}</text>
             </view>
             <!-- <view class="item">
                 <text>5.外观</text>
-                <text>{{ info.FPleaseBuyNo }}</text>
             </view> -->
             <view class="item">
                 <text>5.壁厚检测点</text>
-                <text>{{ info.FPleaseBuyNo }}</text>
             </view>
             <view wx:if="{{ imageUrl }}" class="img-box">
                 <image bindtap="onPreviewImage" src="{{ imageUrl }}" />
