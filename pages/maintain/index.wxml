@@ -54,7 +54,7 @@
                 <view class="thead">
                     <view class="tbody-tr">
                         <view class="th" style="width: 110rpx;">序号</view>
-                        <view class="th" style="width: 220rpx;">维修项目</view>
+                        <view class="th" style="width: 220rpx;">巡检项目</view>
                         <view class="th" style="width: 200rpx;">巡检人</view>
                         <view class="th" style="width: 200rpx;">操作</view>
                     </view>

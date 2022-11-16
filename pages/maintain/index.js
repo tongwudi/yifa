@@ -115,10 +115,10 @@ Page({
         const index = e.target.dataset.index
         const curObj = this.data.inspectTableData[index]
 
-        if (Object.keys(curObj) !== Object.values(curObj)) {
+        if ( curObj.project === '' || curObj.inspectors === '') {
             wx.showToast({
                 icon: 'none',
-                title: '请先填写维修项目与巡检人！',
+                title: '请先填写巡检项目与巡检人！',
                 duration: 2000 // 持续的时间
             })
             return
