@@ -15,7 +15,7 @@ Page({
     },
     search() {
         wx.request({
-            url: 'http://221.131.179.226:8085/YFWechat/OpenApi/getOrderDetail',
+            url: 'https://xcx.evalve.cn:8443/YFWechat/OpenApi/getOrderDetail',
             method: 'POST',
             data: {
                 trackNo: this.data.trackNo

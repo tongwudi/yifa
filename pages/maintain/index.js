@@ -46,7 +46,7 @@ Page({
             trackNo
         })
         wx.request({
-            url: 'http://221.131.179.226:8085/YFWechat/OpenApi/getInspectionItem',
+            url: 'https://xcx.evalve.cn:8443/YFWechat/OpenApi/getInspectionItem',
             method: 'POST',
             data: {
                 trackNo
@@ -139,7 +139,7 @@ Page({
         const trackNo = this.data.trackNo
 
         wx.uploadFile({
-            url: 'http://221.131.179.226:8085/YFWechat/OpenApi/saveInspectionRecords',
+            url: 'https://xcx.evalve.cn:8443/YFWechat/OpenApi/saveInspectionRecords',
             filePath,
             name: 'file',
             formData: {
@@ -217,7 +217,7 @@ Page({
         const fetchArr = maintainTableData.map(item => {
             return new Promise((resolve, reject) => {
                 wx.request({
-                    url: 'http://221.131.179.226:8085/YFWechat/OpenApi/saveRepairRecords',
+                    url: 'https://xcx.evalve.cn:8443/YFWechat/OpenApi/saveRepairRecords',
                     method: 'POST',
                     data: {
                         trackNo,
@@ -253,7 +253,7 @@ Page({
         const trackNo = this.data.trackNo
 
         wx.request({
-            url: 'http://221.131.179.226:8085/YFWechat/OpenApi/getRecordWord',
+            url: 'https://xcx.evalve.cn:8443/YFWechat/OpenApi/getRecordWord',
             method: 'POST',
             data: {
                 trackNo

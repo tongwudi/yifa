@@ -1,7 +1,7 @@
 <view class="info">
     <view class="navbar">
-        <text>江苏亿阀股份有限公司</text>
-        <text>阀门信息溯源</text>
+        <!-- <text>阀门信息溯源</text> -->
+        <text>阀门全生命周期管理</text>
     </view>
 
     <view class="search">
