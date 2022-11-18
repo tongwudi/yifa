@@ -98,7 +98,7 @@
                                 <input type="text" bindinput="bindMaintainInput" value="{{ item.repairUser }}" data-index="{{ index }}" data-name="repairUser" />
                             </view>
                             <view class="td operation" style="width: 150rpx;">
-                                <a bindtap="uploadRecord" data-index="{{ index }}">{{ !item.isUpload ? '提交' : '重新提交' }}</a>
+                                <a bindtap="uploadRecord" data-index="{{ index }}">{{ !item.isUpload ? '上传' : '重新上传' }}</a>
                             </view>
                         </view>
                     </block>
@@ -114,6 +114,6 @@
         </block>
     </view>
 
-    <button class="next-btn" hover-class="hover-btn" bindtap="downloadRecord">下载</button>
+    <button class="next-btn" hover-class="hover-btn" bindtap="downloadRecord">下载维保记录</button>
     <button class="back-btn" hover-class="hover-btn" bindtap="goBack">返回前一页</button>
 </view>

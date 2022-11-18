@@ -153,12 +153,12 @@ Page({
                 const result = JSON.parse(res.data)
 
                 if (result.success) {
+                    wx.showToast({
+                        title: curObj.fileUrl ? '修改成功' : '上传成功',
+                        duration: 2000 // 持续的时间
+                    })
                     this.setData({
                         [`inspectTableData[${index}].fileUrl`]: filePath
-                    })
-                    wx.showToast({
-                        title: '上传成功',
-                        duration: 2000 // 持续的时间
                     })
                 } else {
                     wx.showToast({
@@ -219,13 +219,15 @@ Page({
             },
             success: res => {
                 if (res.data.success) {
-                    this.setData({
-                        [`maintainTableData[${index}].isUpload`]: true
-                    })
                     wx.showToast({
-                        title: '上传成功',
+                        title: curObj.isUpload ? '修改成功' : '上传成功',
                         duration: 2000 // 持续的时间
                     })
+                    if (!curObj.isUpload) {
+                        this.setData({
+                            [`maintainTableData[${index}].isUpload`]: true
+                        })
+                    }
                 }
             }
         })
