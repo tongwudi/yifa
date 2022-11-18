@@ -64,10 +64,12 @@ Page({
     },
     showDetail(event) {
         const key = event.currentTarget.dataset.key
+        const value = this.data.object[key]
+
         if (!key) return
 
         this.setData({
-            ['object.' + key]: true
+            ['object.' + key]: !value
         })
     },
     showCompleteDetail(event) {

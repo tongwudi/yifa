@@ -66,11 +66,12 @@ Page({
     },
     showDetail(event) {
         const key = event.currentTarget.dataset.key
+        const value = this.data.object[key]
 
         if (!key) return
 
         this.setData({
-            ['object.' + key]: true
+            ['object.' + key]: !value
         })
     },
     // 文件预览
@@ -195,59 +196,39 @@ Page({
             maintainTableData: maintainTableData.concat(obj)
         })
     },
-    uploadRecord() {
-        const maintainTableData = this.data.maintainTableData;
+    uploadRecord(e) {
+        const index = e.target.dataset.index
+        const curObj = this.data.maintainTableData[index]
         const trackNo = this.data.trackNo
 
-        // 新增数据是否全部填写
-        const isEnter = maintainTableData.every(obj => {
-            const values = Object.values(obj).filter(String)
-            const keys = Object.keys(obj)
-            return values.length === keys.length
-        })
-        if (!isEnter) {
+        if (curObj.repairItem === '' || curObj.repairUser === '') {
             wx.showToast({
                 icon: 'none',
-                title: '请先完善当前数据！',
+                title: '请先填写维修项目与维修人！',
                 duration: 2000 // 持续的时间
             })
             return
         }
 
-        const fetchArr = maintainTableData.map(item => {
-            return new Promise((resolve, reject) => {
-                wx.request({
-                    url: 'https://xcx.evalve.cn:8443/YFWechat/OpenApi/saveRepairRecords',
-                    method: 'POST',
-                    data: {
-                        trackNo,
-                        ...item
-                    },
-                    success: res => {
-                        if (res.data.success) {
-                            resolve(res.data)
-                        } else {
-                            reject()
-                        }
-                    }
-                })
-            })
+        wx.request({
+            url: 'https://xcx.evalve.cn:8443/YFWechat/OpenApi/saveRepairRecords',
+            method: 'POST',
+            data: {
+                trackNo,
+                ...curObj
+            },
+            success: res => {
+                if (res.data.success) {
+                    this.setData({
+                        [`maintainTableData[${index}].isUpload`]: true
+                    })
+                    wx.showToast({
+                        title: '上传成功',
+                        duration: 2000 // 持续的时间
+                    })
+                }
+            }
         })
-
-        Promise.all(fetchArr)
-            .then(res => {
-                wx.showToast({
-                    title: '上传成功',
-                    duration: 2000 // 持续的时间
-                })
-            })
-            .catch(() => {
-                wx.showToast({
-                    icon: 'none',
-                    title: '请先完善当前数据！',
-                    duration: 2000 // 持续的时间
-                })
-            })
     },
     downloadRecord() {
         const trackNo = this.data.trackNo
